@@ -1,0 +1,154 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Example form &mdash; plone-z3c.form-tutorial - 0.1</title>
+    <link rel="stylesheet" href="static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="static/jquery.js"></script>
+    <script type="text/javascript" src="static/underscore.js"></script>
+    <script type="text/javascript" src="static/doctools.js"></script>
+    <link rel="shortcut icon" href="static/favicon.ico"/>
+    <link rel="top" title="plone-z3c.form-tutorial - 0.1" href="index.html" />
+    <link rel="next" title="What’s new" href="whats_new.html" />
+    <link rel="prev" title="Intro rant" href="intro_rant.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="whats_new.html" title="What’s new"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="intro_rant.html" title="Intro rant"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">plone-z3c.form-tutorial - 0.1</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body">
+            
+  <div class="section" id="example-form">
+<h1>Example form<a class="headerlink" href="#example-form" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="shema-driven-forms-starts-with">
+<h2>Shema-driven forms starts with ...<a class="headerlink" href="#shema-driven-forms-starts-with" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">zope.interface</span> <span class="kn">import</span> <span class="n">Interface</span>
+<span class="kn">from</span> <span class="nn">zope.schema</span> <span class="kn">import</span> <span class="n">TextLine</span>
+<span class="kn">from</span> <span class="nn">my.package</span> <span class="kn">import</span> <span class="n">MessageFactory</span> <span class="k">as</span> <span class="n">_</span>
+
+<span class="k">class</span> <span class="nc">IPerson</span><span class="p">(</span><span class="n">Interface</span><span class="p">):</span>
+
+    <span class="n">firstname</span> <span class="o">=</span> <span class="n">TextLine</span><span class="p">(</span>
+        <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Firstname&quot;</span><span class="p">),</span>
+        <span class="n">description</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Please enter your firstname.&quot;</span><span class="p">),</span>
+        <span class="n">required</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+    <span class="n">lastname</span> <span class="o">=</span> <span class="n">TextLine</span><span class="p">(</span>
+        <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Lastname&quot;</span><span class="p">),</span>
+        <span class="n">description</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Please enter your lastname.&quot;</span><span class="p">),</span>
+        <span class="n">required</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+    <span class="n">age</span> <span class="o">=</span> <span class="n">TextLine</span><span class="p">(</span>
+        <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Age&quot;</span><span class="p">),</span>
+        <span class="n">description</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Please enter your age.&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="form">
+<h2>Form<a class="headerlink" href="#form" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">from</span> <span class="nn">z3c.form</span> <span class="kn">import</span> <span class="n">form</span><span class="p">,</span> <span class="n">field</span>
+<span class="kn">from</span> <span class="nn">z3c.form</span> <span class="kn">import</span> <span class="n">interfaces</span>
+
+<span class="k">class</span> <span class="nc">PersonForm</span><span class="p">(</span><span class="n">form</span><span class="o">.</span><span class="n">Form</span><span class="p">):</span>
+
+    <span class="n">fields</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">Fields</span><span class="p">(</span><span class="n">IContact</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">updateWidgets</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ContactForm</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">updateWidgets</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">widgets</span><span class="p">[</span><span class="s">&#39;age&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="n">interfaces</span><span class="o">.</span><span class="n">HIDDEN_MODE</span>
+
+    <span class="nd">@button.buttonAndHandler</span><span class="p">(</span><span class="s">u&#39;Cancel&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">handleCancel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s">&#39;cancel&#39;</span>
+
+    <span class="nd">@button.buttonAndHandler</span><span class="p">(</span><span class="s">u&#39;Save&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">handleSave</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action</span><span class="p">):</span>
+        <span class="n">data</span><span class="p">,</span> <span class="n">errors</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">extractData</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">errors</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">False</span>
+
+        <span class="k">print</span> <span class="s">&#39;Firstname: &#39;</span> <span class="o">+</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;firstname&#39;</span><span class="p">]</span>
+        <span class="k">print</span> <span class="s">&#39;Lastname: &#39;</span> <span class="o">+</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;lastname&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="hook-it-up-with-familiar-browserview-machinery">
+<h2>Hook it up with familiar BrowserView machinery<a class="headerlink" href="#hook-it-up-with-familiar-browserview-machinery" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">plone.z3cform.layer</span> <span class="kn">import</span> <span class="n">wrap_form</span>
+
+<span class="n">PersonFormView</span> <span class="o">=</span> <span class="n">wrap_form</span><span class="p">(</span><span class="n">PersonForm</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-xml"><pre>&lt;configure
+    ...
+    xmlns:browser="http://namespaces.zope.org/browser" /&gt;
+
+    &lt;browser:page
+        name="person"
+        for="*"
+        class=".person.PersonFormView"
+        permission="zope2.View"
+        /&gt;
+&lt;/configure&gt;</pre>
+</div>
+<p><em>This form can then be viewable via `++view++person` or `&#64;&#64;person`.</em></p>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="whats_new.html" title="What’s new"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="intro_rant.html" title="Intro rant"
+             >previous</a> |</li>
+        <li><a href="index.html">plone-z3c.form-tutorial - 0.1</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2010, Rok Garbas.
+      Last updated on Oct 28, 2010.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.4.
+    </div>
+  </body>
+</html>

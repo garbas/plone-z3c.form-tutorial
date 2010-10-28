@@ -1,0 +1,122 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Now lets start again &mdash; plone-z3c.form-tutorial - 0.1</title>
+    <link rel="stylesheet" href="static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="static/jquery.js"></script>
+    <script type="text/javascript" src="static/underscore.js"></script>
+    <script type="text/javascript" src="static/doctools.js"></script>
+    <link rel="shortcut icon" href="static/favicon.ico"/>
+    <link rel="top" title="plone-z3c.form-tutorial - 0.1" href="index.html" />
+    <link rel="next" title="Define schema and create simple form" href="define_schema.html" />
+    <link rel="prev" title="And last: plone.directives.form" href="plone_directives_form.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="define_schema.html" title="Define schema and create simple form"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="plone_directives_form.html" title="And last: plone.directives.form"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">plone-z3c.form-tutorial - 0.1</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body">
+            
+  <div class="section" id="now-lets-start-again">
+<h1>Now lets start again<a class="headerlink" href="#now-lets-start-again" title="Permalink to this headline">¶</a></h1>
+<p><tt class="docutils literal"><span class="pre">setup.py</span></tt>:</p>
+<div class="highlight-python"><pre>setup(
+    ...
+    install_requires = [
+        ...
+        'plone.app.z3cform',
+        'plone.directives.form',
+        ...
+    ]
+)</pre>
+</div>
+<p><tt class="docutils literal"><span class="pre">configure.zcml</span></tt></p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;include</span> <span class="na">package=</span><span class="s">&quot;plone.directives.form&quot;</span> <span class="na">file=</span><span class="s">&quot;meta.zcml&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;include</span> <span class="na">package=</span><span class="s">&quot;plone.directives.form&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;include</span> <span class="na">package=</span><span class="s">&quot;plone.app.z3cform&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;grok:grok</span> <span class="na">package=</span><span class="s">&quot;.&quot;</span> <span class="nt">/&gt;</span>
+
+or
+
+<span class="nt">&lt;includeDependencies</span> <span class="na">package=</span><span class="s">&quot;.&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;grok:grok</span> <span class="na">package=</span><span class="s">&quot;.&quot;</span> <span class="nt">/&gt;</span>
+
+...
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">profiles/default/metadata.xml</span></tt></p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;metadata&gt;</span>
+    <span class="nt">&lt;version&gt;</span>1<span class="nt">&lt;/version&gt;</span>
+    <span class="nt">&lt;dependencies&gt;</span>
+        <span class="nt">&lt;dependency&gt;</span>profile-plone.app.z3cform:default<span class="nt">&lt;/dependency&gt;</span>
+        ...
+    <span class="nt">&lt;/dependencies&gt;</span>
+<span class="nt">&lt;/metadata&gt;</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">buildout.cfg</span></tt></p>
+<div class="highlight-text"><div class="highlight"><pre>[buildout]
+extends =
+    ...
+    http://good-py.appspot.com/release/plone.autoform/1.0b2
+</pre></div>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="define_schema.html" title="Define schema and create simple form"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="plone_directives_form.html" title="And last: plone.directives.form"
+             >previous</a> |</li>
+        <li><a href="index.html">plone-z3c.form-tutorial - 0.1</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2010, Rok Garbas.
+      Last updated on Oct 28, 2010.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.4.
+    </div>
+  </body>
+</html>

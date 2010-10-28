@@ -1,0 +1,341 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Vocabularies &mdash; plone-z3c.form-tutorial - 0.1</title>
+    <link rel="stylesheet" href="static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="static/jquery.js"></script>
+    <script type="text/javascript" src="static/underscore.js"></script>
+    <script type="text/javascript" src="static/doctools.js"></script>
+    <link rel="shortcut icon" href="static/favicon.ico"/>
+    <link rel="top" title="plone-z3c.form-tutorial - 0.1" href="index.html" />
+    <link rel="next" title="Widgets and Fieldsets" href="widgets_and_fieldsets.html" />
+    <link rel="prev" title="Validation in all its glory" href="validation.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="widgets_and_fieldsets.html" title="Widgets and Fieldsets"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="validation.html" title="Validation in all its glory"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">plone-z3c.form-tutorial - 0.1</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body">
+            
+  <div class="section" id="vocabularies">
+<h1>Vocabularies<a class="headerlink" href="#vocabularies" title="Permalink to this headline">¶</a></h1>
+<blockquote>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">term</span></tt>: entry in a vocabulary</li>
+<li><tt class="docutils literal"><span class="pre">token</span></tt>: ASCII string which is passed when form is submited</li>
+<li><tt class="docutils literal"><span class="pre">value</span></tt>: actuall value which would be stored in object</li>
+<li><tt class="docutils literal"><span class="pre">title</span></tt>: representational string (unicode)</li>
+</ul>
+</blockquote>
+<div class="section" id="static-vocabularies">
+<h2>Static vocabularies<a class="headerlink" href="#static-vocabularies" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python"><pre>class IPerson(form.Schema):
+    ...
+
+    favorite_colors = schema.Set(
+        title=u"Favorite colors",
+        value_type=schema.Choice(values=['red', 'green', 'blue', 'yellow'])
+
+    country = schema.Choice(
+        title=u"Country",
+        values=['Slovenia', 'Spain', 'Portugal', 'France'])</pre>
+</div>
+</div>
+<div class="section" id="dynamic-vocabularies">
+<h2>Dynamic vocabularies<a class="headerlink" href="#dynamic-vocabularies" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">zope.schema.interfaces</span> <span class="kn">import</span> <span class="n">IContextSourceBinder</span>
+<span class="kn">from</span> <span class="nn">zope.schema.vocabulary</span> <span class="kn">import</span> <span class="n">SimpleVocabulary</span>
+
+
+<span class="n">grok</span><span class="o">.</span><span class="n">provider</span><span class="p">(</span><span class="n">IContextSourceBinder</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">countries_list</span><span class="p">(</span><span class="n">context</span><span class="p">):</span>
+    <span class="n">terms</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">term</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;Slovenia&#39;</span><span class="p">,</span> <span class="s">&#39;Spain&#39;</span><span class="p">,</span> <span class="s">&#39;Portugal&#39;</span><span class="p">,</span> <span class="s">&#39;France&#39;</span><span class="p">]:</span>
+        <span class="n">terms</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">SimpleVocabulary</span><span class="o">.</span><span class="n">createTerm</span><span class="p">(</span><span class="n">term</span><span class="p">,</span> <span class="n">term</span><span class="p">,</span> <span class="n">term</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">SimpleVocabulary</span><span class="p">(</span><span class="n">terms</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">IPerson</span><span class="p">(</span><span class="n">form</span><span class="o">.</span><span class="n">Schema</span><span class="p">):</span>
+    <span class="o">...</span>
+
+    <span class="n">country</span> <span class="o">=</span> <span class="n">schema</span><span class="o">.</span><span class="n">Choice</span><span class="p">(</span>
+        <span class="n">title</span><span class="o">=</span><span class="s">u&quot;Country&quot;</span><span class="p">,</span>
+        <span class="n">source</span><span class="o">=</span><span class="n">countries_list</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>... or ...</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">CountriesList</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="n">grok</span><span class="o">.</span><span class="n">implements</span><span class="p">(</span><span class="n">IContextSourceBinder</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">continent</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">continent</span> <span class="o">=</span> <span class="n">continent</span>
+
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+        <span class="n">countries</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+            <span class="n">europe</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;Slovenia&#39;</span><span class="p">,</span> <span class="s">&#39;Spain&#39;</span><span class="p">,</span> <span class="s">&#39;Portugal&#39;</span><span class="p">,</span> <span class="s">&#39;France&#39;</span><span class="p">],</span>
+            <span class="n">south_america</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;Argentina&#39;</span><span class="p">,</span> <span class="s">&#39;Brasil&#39;</span><span class="p">,</span> <span class="s">&#39;Chile&#39;</span><span class="p">],</span> <span class="p">)</span>
+
+        <span class="n">terms</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">term</span> <span class="ow">in</span> <span class="n">countries</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">continent</span><span class="p">]:</span>
+            <span class="n">terms</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">SimpleVocabulary</span><span class="o">.</span><span class="n">createTerm</span><span class="p">(</span><span class="n">term</span><span class="p">,</span> <span class="n">term</span><span class="p">,</span> <span class="n">term</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">SimpleVocabulary</span><span class="p">(</span><span class="n">terms</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">IPerson</span><span class="p">(</span><span class="n">form</span><span class="o">.</span><span class="n">Schema</span><span class="p">):</span>
+    <span class="o">...</span>
+
+    <span class="n">country</span> <span class="o">=</span> <span class="n">schema</span><span class="o">.</span><span class="n">Choice</span><span class="p">(</span>
+        <span class="n">title</span><span class="o">=</span><span class="s">u&quot;Country&quot;</span><span class="p">,</span>
+        <span class="n">source</span><span class="o">=</span><span class="n">CountriesList</span><span class="p">(</span><span class="s">&#39;south_america&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="named-vocabularies">
+<h2>Named vocabularies<a class="headerlink" href="#named-vocabularies" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python"><pre>from zope.schema.interfaces import IVocabularyFactory
+
+
+class CountriesList(object)
+    grok.implements(IVocabularyFactory)
+
+    def __call__(self, context):
+        terms = []
+        for term in ['Slovenia', 'Spain', 'Portugal', 'France']:
+            terms.append(SimpleVocabulary.createTerm(term, term, term))
+        return SimpleVocabulary(terms)
+
+grok.global_utility(CountriesList, name=u"countries_list")
+
+class IPerson(form.Schema):
+    ...
+
+    country = schema.Choice(
+        title=u"Country",
+        vocabulary=u"countries_list")</pre>
+</div>
+</div>
+<div class="section" id="vdex-vocabulary">
+<h2>VDEX vocabulary<a class="headerlink" href="#vdex-vocabulary" title="Permalink to this headline">¶</a></h2>
+<p>Imagine you have big vocabularies with a lot of relations. I&#8217;m talking +10.000
+terms with +30.000 relations. So this would be perfect use case to use
+<a class="reference external" href="http://pypi.python.org/pypi/collective.vdexvocabulary">collective.vdexvocabulary</a>. Also there are other stuff which I didn&#8217;t found
+in other vocabulary packages for Plone/Zope:</p>
+<blockquote>
+<ul class="simple">
+<li>i18n support (as it is defined in IMS VDEX)</li>
+<li>proper order also with unicode charecters (if zope.ucol is installed)</li>
+<li>easy registration using zcml</li>
+<li>relations as it specified in IMS VDEX standard</li>
+</ul>
+</blockquote>
+<div class="section" id="installation">
+<h3>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h3>
+<p>In your configure.zcml add</p>
+<div class="highlight-xml"><pre>&lt;configure
+    ...
+    xmlns:vdex="http://namespaces.zope.org/vdex"
+    ...&gt;
+
+  &lt;include package="collective.vdexvocabulary" file="meta.zcml" /&gt;
+  &lt;include package="collective.vdexvocabulary" /&gt;</pre>
+</div>
+<p>And to register a vdex vocabulary simply add line bellow pointing to file
+containing vdex vocabulary</p>
+<div class="highlight-xml"><pre>&lt;configure
+    ...
+    xmlns:vdex="http://namespaces.zope.org/vdex"
+    ...&gt;
+
+  &lt;vdex:vocabulary file="path-to/very-interesting.xml" /&gt;</pre>
+</div>
+<p>To make registration of vocabularies even easier you can also register
+several vocabularies and just point to directory</p>
+<div class="highlight-xml"><pre>&lt;configure
+    ...
+    xmlns:vdex="http://namespaces.zope.org/vdex"
+    ...&gt;
+
+  &lt;vdex:vocabulary directory="path-to/my-vdex-vocabularies" /&gt;</pre>
+</div>
+<p>vdex files in <tt class="docutils literal"><span class="pre">path-to/my-vdex-vocabularies</span></tt> directory should have ending
+<tt class="docutils literal"><span class="pre">.vdex</span></tt> to be recognized by <tt class="docutils literal"><span class="pre">vdex:vocabulary</span></tt> ZCML directive.</p>
+</div>
+<div class="section" id="example-vdex-file">
+<h3>Example VDEX file<a class="headerlink" href="#example-vdex-file" title="Permalink to this headline">¶</a></h3>
+<p>Example of car manufacturers list (<tt class="docutils literal"><span class="pre">car_manufacturers.vdex</span></tt>).</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
+<span class="nt">&lt;vdex</span> <span class="na">xmlns=</span><span class="s">&quot;http://www.imsglobal.org/xsd/imsvdex_v1p0&quot;</span>
+      <span class="na">orderSignificant=</span><span class="s">&quot;false&quot;</span> <span class="na">language=</span><span class="s">&quot;en&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;vocabIdentifier&gt;</span>your.package.car_manufacturers<span class="nt">&lt;/vocabIdentifier&gt;</span>
+    <span class="nt">&lt;term&gt;</span>
+        <span class="nt">&lt;termIdentifier&gt;</span>ford<span class="nt">&lt;/termIdentifier&gt;</span>
+        <span class="nt">&lt;caption&gt;</span>
+            <span class="nt">&lt;langstring</span> <span class="na">language=</span><span class="s">&quot;en&quot;</span><span class="nt">&gt;</span>Ford<span class="nt">&lt;/langstring&gt;</span>
+            <span class="nt">&lt;langstring</span> <span class="na">language=</span><span class="s">&quot;es&quot;</span><span class="nt">&gt;</span>Una miedra de coche<span class="nt">&lt;/langstring&gt;</span>
+        <span class="nt">&lt;/caption&gt;</span>
+    <span class="nt">&lt;/term&gt;</span>
+    <span class="nt">&lt;term&gt;</span>
+        <span class="nt">&lt;termIdentifier&gt;</span>bmw<span class="nt">&lt;/termIdentifier&gt;</span>
+        <span class="nt">&lt;caption&gt;</span>
+            <span class="nt">&lt;langstring</span> <span class="na">language=</span><span class="s">&quot;en&quot;</span><span class="nt">&gt;</span>BMW<span class="nt">&lt;/langstring&gt;</span>
+            <span class="nt">&lt;langstring</span> <span class="na">language=</span><span class="s">&quot;es&quot;</span><span class="nt">&gt;</span>Be-eMe-uWe, mierda<span class="nt">&lt;/langstring&gt;</span>
+        <span class="nt">&lt;/caption&gt;</span>
+    <span class="nt">&lt;/term&gt;</span>
+
+    <span class="nt">&lt;relationship&gt;</span>
+        <span class="nt">&lt;sourceTerm&gt;</span>bmw<span class="nt">&lt;/sourceTerm&gt;</span>
+        <span class="nt">&lt;targetTerm</span> <span class="na">vocabIdentifier=</span><span class="s">&quot;your.package.car_models&quot;</span><span class="nt">&gt;</span>very-special-bmw-model<span class="nt">&lt;/targetTerm&gt;</span>
+        <span class="nt">&lt;relationshipType</span> <span class="na">source=</span><span class="s">&quot;http://www.imsglobal.org/vocabularies/iso2788_relations.xml&quot;</span><span class="nt">&gt;</span>NT<span class="nt">&lt;/relationshipType&gt;</span>
+    <span class="nt">&lt;/relationship&gt;</span>
+
+    ...
+
+<span class="nt">&lt;/vdex&gt;</span>
+</pre></div>
+</div>
+<p>List of car models (<tt class="docutils literal"><span class="pre">car_models.vdex</span></tt>).</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
+<span class="nt">&lt;vdex</span> <span class="na">xmlns=</span><span class="s">&quot;http://www.imsglobal.org/xsd/imsvdex_v1p0&quot;</span>
+      <span class="na">orderSignificant=</span><span class="s">&quot;false&quot;</span> <span class="na">language=</span><span class="s">&quot;en&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;vocabIdentifier&gt;</span>your.package.car_models<span class="nt">&lt;/vocabIdentifier&gt;</span>
+
+    <span class="nt">&lt;term&gt;</span>
+        <span class="nt">&lt;termIdentifier&gt;</span>very-special-bmw-model<span class="nt">&lt;/termIdentifier&gt;</span>
+        <span class="nt">&lt;caption&gt;</span>
+            <span class="nt">&lt;langstring</span> <span class="na">language=</span><span class="s">&quot;en&quot;</span><span class="nt">&gt;</span>Very special BMW model<span class="nt">&lt;/langstring&gt;</span>
+            <span class="nt">&lt;langstring</span> <span class="na">language=</span><span class="s">&quot;es&quot;</span><span class="nt">&gt;</span>Un modelo de Be-eMe-uWe<span class="nt">&lt;/langstring&gt;</span>
+        <span class="nt">&lt;/caption&gt;</span>
+    <span class="nt">&lt;/term&gt;</span>
+
+    <span class="nt">&lt;relationship&gt;</span>
+        <span class="nt">&lt;sourceTerm&gt;</span>very-special-bmw-model<span class="nt">&lt;/sourceTerm&gt;</span>
+        <span class="nt">&lt;targetTerm</span> <span class="na">vocabIdentifier=</span><span class="s">&quot;your.package.car_manufacturers&quot;</span><span class="nt">&gt;</span>bmw<span class="nt">&lt;/targetTerm&gt;</span>
+        <span class="nt">&lt;relationshipType</span> <span class="na">source=</span><span class="s">&quot;http://www.imsglobal.org/vocabularies/iso2788_relations.xml&quot;</span><span class="nt">&gt;</span>BT<span class="nt">&lt;/relationshipType&gt;</span>
+    <span class="nt">&lt;/relationship&gt;</span>
+
+...
+
+<span class="nt">&lt;/vdex&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="how-to-access-relations-from-code">
+<h3>How to access relations (from code)<a class="headerlink" href="#how-to-access-relations-from-code" title="Permalink to this headline">¶</a></h3>
+<p>Relations are defined by <a class="reference external" href="http://www.imsglobal.org/vocabularies/iso2788_relations.xml">ISO2788</a>.</p>
+<p>To get listing of BMW car models from above VDEX example you have to</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">zope.schema.vocabulary</span> <span class="kn">import</span> <span class="n">getVocabularyRegistry</span>
+
+<span class="n">vr</span> <span class="o">=</span> <span class="n">getVocabularyRegistry</span><span class="p">()</span>
+<span class="n">car_manufacturers</span> <span class="o">=</span> <span class="n">vr</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="p">,</span> <span class="s">&#39;your.package.car_manufacturers&#39;</span><span class="p">)</span>
+<span class="n">car_models</span> <span class="o">=</span> <span class="n">vr</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="p">,</span> <span class="s">&#39;your.package.car_models&#39;</span><span class="p">)</span>
+
+<span class="n">bmw</span> <span class="o">=</span> <span class="n">car_manufacturers</span><span class="o">.</span><span class="n">getTerm</span><span class="p">(</span><span class="s">&#39;bmw&#39;</span><span class="p">)</span>
+<span class="n">bmw_car_models</span> <span class="o">=</span> <span class="n">bmw</span><span class="o">.</span><span class="n">related</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;NT&#39;</span><span class="p">,</span> <span class="p">[])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="elephant-vocabularies">
+<h2>Elephant vocabularies<a class="headerlink" href="#elephant-vocabularies" title="Permalink to this headline">¶</a></h2>
+<p>Like elephants don&#8217;t forget anything, so does not
+<tt class="docutils literal"><span class="pre">collective.elephantvocabulary</span></tt>. It provides a wrapper around for existing
+<a class="reference external" href="http://pypi.python.org/pypi/zope.schema">zope.schema</a> vocabularies and make them not forget anything.</p>
+<p>Examples:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">collective.elephantvocabulary</span> <span class="kn">import</span> <span class="n">wrap_vocabulary</span>
+
+<span class="k">class</span> <span class="nc">IPerson</span><span class="p">(</span><span class="n">form</span><span class="o">.</span><span class="n">Schema</span><span class="p">):</span>
+    <span class="o">...</span>
+
+    <span class="c"># countries_list -&gt; [&#39;Slovenia&#39;, &#39;Spain&#39;, &#39;Portugal&#39;, &#39;France&#39;]</span>
+
+    <span class="n">country1</span> <span class="o">=</span> <span class="n">schema</span><span class="o">.</span><span class="n">Choice</span><span class="p">(</span>
+        <span class="n">title</span><span class="o">=</span><span class="s">u&quot;Country&quot;</span><span class="p">,</span>
+        <span class="n">vocabulary</span><span class="o">=</span><span class="n">wrap_vocabulary</span><span class="p">(</span><span class="n">countries_list</span><span class="p">,</span> <span class="n">hidden_terms</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;Slovenia&#39;</span><span class="p">]))</span>
+        <span class="c"># [Spain&#39;, &#39;Portugal&#39;, &#39;France&#39;]</span>
+
+    <span class="n">country2</span> <span class="o">=</span> <span class="n">schema</span><span class="o">.</span><span class="n">Choice</span><span class="p">(</span>
+        <span class="n">title</span><span class="o">=</span><span class="s">u&quot;Country&quot;</span><span class="p">,</span>
+        <span class="n">vocabulary</span><span class="o">=</span><span class="n">wrap_vocabulary</span><span class="p">(</span><span class="n">countries_list</span><span class="p">,</span>
+                            <span class="n">visible_terms</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;Slovenia&#39;</span><span class="p">,</span> <span class="s">&#39;Portugal&#39;</span><span class="p">]))</span>
+        <span class="c"># [&#39;Slovenia&#39;, &#39;Portugal&#39;]</span>
+
+    <span class="n">country3</span> <span class="o">=</span> <span class="n">schema</span><span class="o">.</span><span class="n">Choice</span><span class="p">(</span>
+        <span class="n">title</span><span class="o">=</span><span class="s">u&quot;Country&quot;</span><span class="p">,</span>
+        <span class="n">vocabulary</span><span class="o">=</span><span class="n">wrap_vocabulary</span><span class="p">(</span><span class="n">countries_list</span><span class="p">,</span> <span class="n">hidden_terms</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;Slovenia&#39;</span><span class="p">],</span>
+                            <span class="n">visible_terms</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;Slovenia&#39;</span><span class="p">,</span> <span class="s">&#39;Spain&#39;</span><span class="p">,</span> <span class="s">&#39;Portugal&#39;</span><span class="p">]))</span>
+        <span class="c"># [&#39;Spain&#39;, &#39;Portugal&#39;]</span>
+
+
+    <span class="n">country4</span> <span class="o">=</span> <span class="n">schema</span><span class="o">.</span><span class="n">Choice</span><span class="p">(</span>
+        <span class="n">title</span><span class="o">=</span><span class="s">u&quot;Country&quot;</span><span class="p">,</span>
+        <span class="n">vocabulary</span><span class="o">=</span><span class="n">wrap_vocabulary</span><span class="p">(</span><span class="s">u&#39;countries_list&#39;</span><span class="p">,</span>
+                        <span class="n">hidden_terms</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;Slovenia&#39;</span><span class="p">,</span> <span class="s">&#39;Spain&#39;</span><span class="p">]))</span>
+        <span class="c"># [&#39;Portugal&#39;, &#39;France&#39;]</span>
+
+    <span class="n">country5</span> <span class="o">=</span> <span class="n">schema</span><span class="o">.</span><span class="n">Choice</span><span class="p">(</span>
+        <span class="n">title</span><span class="o">=</span><span class="s">u&quot;Country&quot;</span><span class="p">,</span>
+        <span class="n">vocabulary</span><span class="o">=</span><span class="n">wrap_vocabulary</span><span class="p">(</span><span class="s">u&#39;countries_list&#39;</span><span class="p">,</span>
+            <span class="n">hidden_terms_from_registry</span><span class="o">=</span><span class="s">u&quot;example.hidden_countries&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="widgets_and_fieldsets.html" title="Widgets and Fieldsets"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="validation.html" title="Validation in all its glory"
+             >previous</a> |</li>
+        <li><a href="index.html">plone-z3c.form-tutorial - 0.1</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2010, Rok Garbas.
+      Last updated on Oct 28, 2010.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.4.
+    </div>
+  </body>
+</html>

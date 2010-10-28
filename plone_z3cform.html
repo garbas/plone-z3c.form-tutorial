@@ -1,0 +1,206 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>In detail: plone.z3cform &mdash; plone-z3c.form-tutorial - 0.1</title>
+    <link rel="stylesheet" href="static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="static/jquery.js"></script>
+    <script type="text/javascript" src="static/underscore.js"></script>
+    <script type="text/javascript" src="static/doctools.js"></script>
+    <link rel="shortcut icon" href="static/favicon.ico"/>
+    <link rel="top" title="plone-z3c.form-tutorial - 0.1" href="index.html" />
+    <link rel="next" title="In detail: plone.app.z3cform" href="plone_app_z3cform.html" />
+    <link rel="prev" title="What’s new" href="whats_new.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="plone_app_z3cform.html" title="In detail: plone.app.z3cform"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="whats_new.html" title="What’s new"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">plone-z3c.form-tutorial - 0.1</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body">
+            
+  <div class="section" id="in-detail-plone-z3cform">
+<h1>In detail: <tt class="docutils literal"><span class="pre">plone.z3cform</span></tt><a class="headerlink" href="#in-detail-plone-z3cform" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="layout-wrappers">
+<h2>Layout wrappers<a class="headerlink" href="#layout-wrappers" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<ul>
+<li><p class="first">define template on form class</p>
+<blockquote>
+<div class="highlight-python"><div class="highlight"><pre><span class="o">...</span>
+<span class="kn">from</span> <span class="nn">Products.Five.browser.pagetemplatefile</span> <span class="kn">import</span> <span class="n">ViewPageTemplateFile</span>
+
+<span class="k">class</span> <span class="nc">PersonForm</span><span class="p">(</span><span class="n">form</span><span class="o">.</span><span class="n">Form</span><span class="p">):</span>
+
+    <span class="n">fields</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">Fields</span><span class="p">(</span><span class="n">IMyformSchema</span><span class="p">)</span>
+    <span class="n">template</span> <span class="o">=</span> <span class="n">ViewPageTemplateFile</span><span class="p">(</span><span class="s">&#39;mytemplate.pt&#39;</span><span class="p">)</span>
+
+    <span class="o">...</span>
+</pre></div>
+</div>
+</blockquote>
+</li>
+<li><p class="first">via <tt class="docutils literal"><span class="pre">zope.pagetemplate.interfaces.IPageTemplate</span></tt> adapting <tt class="docutils literal"><span class="pre">(view,</span> <span class="pre">request)</span></tt></p>
+<blockquote>
+<p>by default we have this layout wrappers:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">z3c.form.interfaces</span>
+<span class="kn">import</span> <span class="nn">plone.z3cform.interfaces</span>
+
+<span class="kn">from</span> <span class="nn">plone.z3cform.templates</span> <span class="kn">import</span> <span class="n">ZopeTwoFormTemplateFactory</span>
+<span class="kn">from</span> <span class="nn">plone.z3cform.templates</span> <span class="kn">import</span> <span class="n">FormTemplateFactory</span>
+
+<span class="n">path</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">plone</span><span class="o">.</span><span class="n">z3cform</span><span class="o">.</span><span class="n">__file__</span><span class="p">),</span> <span class="s">&#39;templates&#39;</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+
+<span class="n">layout_factory</span> <span class="o">=</span> <span class="n">ZopeTwoFormTemplateFactory</span><span class="p">(</span><span class="n">path</span><span class="p">(</span><span class="s">&#39;layout.pt&#39;</span><span class="p">),</span>
+    <span class="n">form</span><span class="o">=</span><span class="n">plone</span><span class="o">.</span><span class="n">z3cform</span><span class="o">.</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IFormWrapper</span>
+<span class="p">)</span>
+
+<span class="n">wrapped_form_factory</span> <span class="o">=</span> <span class="n">FormTemplateFactory</span><span class="p">(</span><span class="n">path</span><span class="p">(</span><span class="s">&#39;wrappedform.pt&#39;</span><span class="p">),</span>
+    <span class="n">form</span><span class="o">=</span><span class="n">plone</span><span class="o">.</span><span class="n">z3cform</span><span class="o">.</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IWrappedForm</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">standalone_form_factory</span> <span class="o">=</span> <span class="n">ZopeTwoFormTemplateFactory</span><span class="p">(</span><span class="n">path</span><span class="p">(</span><span class="s">&#39;form.pt&#39;</span><span class="p">),</span>
+    <span class="n">form</span><span class="o">=</span><span class="n">z3c</span><span class="o">.</span><span class="n">form</span><span class="o">.</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IForm</span>
+<span class="p">)</span>
+
+<span class="n">subform_factory</span> <span class="o">=</span> <span class="n">FormTemplateFactory</span><span class="p">(</span><span class="n">path</span><span class="p">(</span><span class="s">&#39;subform.pt&#39;</span><span class="p">),</span>
+    <span class="n">form</span><span class="o">=</span><span class="n">z3c</span><span class="o">.</span><span class="n">form</span><span class="o">.</span><span class="n">interfaces</span><span class="o">.</span><span class="n">ISubForm</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;adapter</span> <span class="na">factory=</span><span class="s">&quot;.templates.layout_factory&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;adapter</span> <span class="na">factory=</span><span class="s">&quot;.templates.wrapped_form_factory&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;adapter</span> <span class="na">factory=</span><span class="s">&quot;.templates.standalone_form_factory&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;adapter</span> <span class="na">factory=</span><span class="s">&quot;.templates.subform_factory&quot;</span> <span class="nt">/&gt;</span>
+</pre></div>
+</div>
+</blockquote>
+</li>
+</ul>
+</blockquote>
+</div>
+<div class="section" id="widget-traverser">
+<h2><tt class="docutils literal"><span class="pre">++widget++</span></tt> traverser<a class="headerlink" href="#widget-traverser" title="Permalink to this headline">¶</a></h2>
+<p>Sometime we have to register a view on a widget, eg.::</p>
+<div class="highlight-python"><pre>http://plonesite.com/@@form/++widget++field/@@widget-view</pre>
+</div>
+<p>When implementing such a widget (like: plone.formwidget.autocomplete) we need follow
+example bellow (why? read more <a class="reference external" href="http://pypi.python.org/pypi/plone.z3cform#a-caveat-about-security">here</a>).</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">zope.interface</span> <span class="kn">import</span> <span class="n">implementsOnly</span>
+<span class="kn">from</span> <span class="nn">Acquisition</span> <span class="kn">import</span> <span class="n">Explicit</span>
+<span class="kn">from</span> <span class="nn">z3c.form.widget</span> <span class="kn">import</span> <span class="n">Widget</span>
+<span class="kn">from</span> <span class="nn">z3c.form.interfaces</span> <span class="kn">import</span> <span class="n">IWidget</span>
+
+<span class="k">class</span> <span class="nc">MyCustomWidget</span><span class="p">(</span><span class="n">Widget</span><span class="p">,</span> <span class="n">Explicit</span><span class="p">):</span>
+    <span class="n">implementsOnly</span><span class="p">(</span><span class="n">IWidget</span><span class="p">)</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="fieldsets-and-form-extenders">
+<h2>Fieldsets and form extenders<a class="headerlink" href="#fieldsets-and-form-extenders" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">zope.schema</span> <span class="kn">import</span> <span class="n">Text</span>
+<span class="kn">from</span> <span class="nn">zope.component</span> <span class="kn">import</span> <span class="n">adapts</span>
+<span class="kn">from</span> <span class="nn">plone.z3cform.fieldsets</span> <span class="kn">import</span> <span class="n">extensible</span>
+
+<span class="k">class</span> <span class="nc">PersonForm</span><span class="p">(</span><span class="n">extensible</span><span class="o">.</span><span class="n">ExtensibleForm</span><span class="p">,</span> <span class="n">form</span><span class="o">.</span><span class="n">Form</span><span class="p">):</span>
+    <span class="n">fields</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Fields</span><span class="p">(</span><span class="n">IPerson</span><span class="p">)</span>
+    <span class="o">...</span>
+
+<span class="k">class</span> <span class="nc">IBiography</span><span class="p">(</span><span class="n">Interface</span><span class="p">):</span>
+
+    <span class="n">bio</span> <span class="o">=</span> <span class="n">Text</span><span class="p">(</span>
+        <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Biography&quot;</span><span class="p">),</span>
+        <span class="n">required</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">PersonBioForm</span><span class="p">(</span><span class="n">extensible</span><span class="o">.</span><span class="n">FormExtender</span><span class="p">):</span>
+    <span class="n">adapts</span><span class="p">(</span><span class="n">Interface</span><span class="p">,</span> <span class="n">Interface</span><span class="p">,</span> <span class="n">PersonForm</span><span class="p">)</span> <span class="c"># context, request, form</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">form</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">context</span> <span class="o">=</span> <span class="n">context</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">request</span> <span class="o">=</span> <span class="n">request</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">form</span> <span class="o">=</span> <span class="n">form</span>
+
+    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fields</span><span class="o">.</span><span class="n">Fields</span><span class="p">(</span><span class="n">IBiography</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s">&quot;bio&quot;</span><span class="p">),</span> <span class="n">group</span><span class="o">=</span><span class="s">&quot;Biography&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s">&#39;age&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="s">&#39;lastname&#39;</span><span class="p">,</span> <span class="n">before</span><span class="o">=</span><span class="s">&#39;firstname&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="crud-create-read-update-delete">
+<h2>CRUD (Create, Read, Update, Delete)<a class="headerlink" href="#crud-create-read-update-delete" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">plone.z3cform.crud</span> <span class="kn">import</span> <span class="n">crud</span>
+
+<span class="k">class</span> <span class="nc">PersonCRUDForm</span><span class="p">(</span><span class="n">crud</span><span class="o">.</span><span class="n">CrudForm</span><span class="p">):</span>
+    <span class="n">update_schema</span> <span class="o">=</span> <span class="n">IPerson</span>
+
+    <span class="k">def</span> <span class="nf">get_items</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">objectIds</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="nb">id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">invokeFactory</span><span class="p">(</span><span class="s">&#39;Person&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">item</span><span class="p">)):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">manage_deleteItems</span><span class="p">([</span><span class="nb">id</span><span class="p">,])</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="plone_app_z3cform.html" title="In detail: plone.app.z3cform"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="whats_new.html" title="What’s new"
+             >previous</a> |</li>
+        <li><a href="index.html">plone-z3c.form-tutorial - 0.1</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2010, Rok Garbas.
+      Last updated on Oct 28, 2010.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.4.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,143 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>In detail: plone.autoform &mdash; plone-z3c.form-tutorial - 0.1</title>
+    <link rel="stylesheet" href="static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="static/jquery.js"></script>
+    <script type="text/javascript" src="static/underscore.js"></script>
+    <script type="text/javascript" src="static/doctools.js"></script>
+    <link rel="shortcut icon" href="static/favicon.ico"/>
+    <link rel="top" title="plone-z3c.form-tutorial - 0.1" href="index.html" />
+    <link rel="next" title="And last: plone.directives.form" href="plone_directives_form.html" />
+    <link rel="prev" title="In detail: plone.app.z3cform" href="plone_app_z3cform.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="plone_directives_form.html" title="And last: plone.directives.form"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="plone_app_z3cform.html" title="In detail: plone.app.z3cform"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">plone-z3c.form-tutorial - 0.1</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body">
+            
+  <div class="section" id="in-detail-plone-autoform">
+<h1>In detail: <tt class="docutils literal"><span class="pre">plone.autoform</span></tt><a class="headerlink" href="#in-detail-plone-autoform" title="Permalink to this headline">¶</a></h1>
+<p>As already said <a class="reference external" href="http://pypi.python.org/pypi/plone.autoform">plone.autoform</a> package provides some more functionality
+to be passed with interface. Its using <tt class="docutils literal"><span class="pre">tag</span> <span class="pre">values</span></tt> to store hints.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">plone.autoform.interfaces</span> <span class="kn">import</span> <span class="n">OMITTED_KEY</span>
+<span class="kn">from</span> <span class="nn">plone.autoform.interfaces</span> <span class="kn">import</span> <span class="n">WIDGETS_KEY</span>
+<span class="kn">from</span> <span class="nn">plone.autoform.interfaces</span> <span class="kn">import</span> <span class="n">MODES_KEY</span>
+<span class="kn">from</span> <span class="nn">plone.autoform.interfaces</span> <span class="kn">import</span> <span class="n">ORDER_KEY</span>
+<span class="kn">from</span> <span class="nn">plone.autoform.interfaces</span> <span class="kn">import</span> <span class="n">READ_PERMISSIONS_KEY</span>
+<span class="kn">from</span> <span class="nn">plone.autoform.interfaces</span> <span class="kn">import</span> <span class="n">WRITE_PERMISSIONS_KEY</span>
+<span class="kn">from</span> <span class="nn">plone.autoform.interfaces</span> <span class="kn">import</span> <span class="n">FIELDSETS_KEY</span>
+</pre></div>
+</div>
+<div class="section" id="in-short">
+<h2>In short<a class="headerlink" href="#in-short" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<ul>
+<li><p class="first"><tt class="docutils literal"><span class="pre">OMITTED_KEY</span></tt>: list of (interface, fieldName, boolean).</p>
+<blockquote>
+<p>If <tt class="docutils literal"><span class="pre">boolean</span></tt> is true then field with <tt class="docutils literal"><span class="pre">fieldName</span></tt> for form which
+implements <tt class="docutils literal"><span class="pre">interface</span></tt> will be omitted.</p>
+</blockquote>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">WIDGETS_KEY</span></tt>: list of (interface, fieldName, mode).</p>
+<blockquote>
+<p>Widget for field <tt class="docutils literal"><span class="pre">fieldName</span></tt> will be rendered in <tt class="docutils literal"><span class="pre">mode</span></tt> (&#8216;hidden&#8217;,
+&#8216;input&#8217;, &#8216;display&#8217;) for form which provides <tt class="docutils literal"><span class="pre">interface</span></tt>.</p>
+</blockquote>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">ORDER_KEY</span></tt>: list of (fieldName, direction, relativeTo)</p>
+<blockquote>
+<p>Field <tt class="docutils literal"><span class="pre">fieldName</span></tt> will be places in <tt class="docutils literal"><span class="pre">direction</span></tt> (&#8216;after&#8217;,
+&#8216;before&#8217;) relative to field <tt class="docutils literal"><span class="pre">relativeTo</span></tt>.</p>
+</blockquote>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">READ_PERMISSIONS_KEY</span></tt>: dict of fieldName -&gt; permission mapping.</p>
+<blockquote>
+<p>When form is in &#8216;display&#8217; mode field <tt class="docutils literal"><span class="pre">fieldName</span></tt> will be omited
+unless user has <tt class="docutils literal"><span class="pre">permission</span></tt> for form&#8217;s context.</p>
+</blockquote>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">WRITE_PERMISSIONS_KEY</span></tt>: dict of fieldName -&gt; permission mapping.</p>
+<blockquote>
+<p>When form is in &#8216;input&#8217; mode field <tt class="docutils literal"><span class="pre">fieldName</span></tt> will be omited
+unless user has <tt class="docutils literal"><span class="pre">permission</span></tt> for form&#8217;s context.</p>
+</blockquote>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">FIELDSETS_KEY</span></tt>:  list of <tt class="docutils literal"><span class="pre">plone.supermodel.model.Fieldset</span></tt>
+instances.</p>
+</li>
+</ul>
+</blockquote>
+</div>
+<div class="section" id="example-of-personform-with-plone-autoform">
+<h2>Example of <tt class="docutils literal"><span class="pre">PersonForm</span></tt> with <tt class="docutils literal"><span class="pre">plone.autoform</span></tt><a class="headerlink" href="#example-of-personform-with-plone-autoform" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python"><pre>from plone.autoform.form import AutoextendibleForm
+
+
+IPerson.setTaggedValue(MODES_KEY, [(Interface, 'age', 'hidden')])
+
+class PersonForm(AutoextendibleForm, form.Form)
+    schema = IPerson
+    ...</pre>
+</div>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="plone_directives_form.html" title="And last: plone.directives.form"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="plone_app_z3cform.html" title="In detail: plone.app.z3cform"
+             >previous</a> |</li>
+        <li><a href="index.html">plone-z3c.form-tutorial - 0.1</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2010, Rok Garbas.
+      Last updated on Oct 28, 2010.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.4.
+    </div>
+  </body>
+</html>

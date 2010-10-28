@@ -1,0 +1,124 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Intro rant &mdash; plone-z3c.form-tutorial - 0.1</title>
+    <link rel="stylesheet" href="static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="static/jquery.js"></script>
+    <script type="text/javascript" src="static/underscore.js"></script>
+    <script type="text/javascript" src="static/doctools.js"></script>
+    <link rel="shortcut icon" href="static/favicon.ico"/>
+    <link rel="top" title="plone-z3c.form-tutorial - 0.1" href="index.html" />
+    <link rel="next" title="Example form" href="example_form.html" />
+    <link rel="prev" title="z3c.form tutorial" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="example_form.html" title="Example form"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="z3c.form tutorial"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">plone-z3c.form-tutorial - 0.1</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body">
+            
+  <div class="section" id="intro-rant">
+<h1>Intro rant<a class="headerlink" href="#intro-rant" title="Permalink to this headline">¶</a></h1>
+<blockquote>
+<ul>
+<li><p class="first">How &#8220;important&#8221; are forms for our website?</p>
+<blockquote>
+</blockquote>
+</li>
+<li><p class="first">Form frameworks? What do they solve?</p>
+<blockquote>
+</blockquote>
+</li>
+<li><p class="first">History of forms in Plone:</p>
+<blockquote>
+<ul>
+<li><dl class="first docutils">
+<dt><a class="reference external" href="http://pypi.python.org/pypi/Products.CMFFormController">CMFFormController</a>: not really a form framework. or at least</dt>
+<dd><p class="first last">does&#8217;t do more then half of the stuff you would expect from form
+framework today. depends on having &#8220;controller script&#8221; which relays
+to different (Zope) &#8220;Python Scripts&#8221;. You could create form TTW.
+Amazigly but it still used in some places in Plone 4.</p>
+</dd>
+</dl>
+</li>
+<li><p class="first"><a class="reference external" href="http://pypi.python.org/pypi/zope.formlib">zope.formlib</a>: Library which ships with Zope. Also used a lot in
+Plone&#8217;s controlpanel (eg. portlets are depending massivly on it).
+It is based on the idea that you create schema (interface) which
+lists fields, constrains, invariants, ... Then special view are used
+to render form properly, widgets, etc.</p>
+<blockquote>
+<p><tt class="docutils literal"><span class="pre">However,</span> <span class="pre">it</span> <span class="pre">can</span> <span class="pre">be</span> <span class="pre">cumbersome</span> <span class="pre">to</span> <span class="pre">use,</span> <span class="pre">especially</span> <span class="pre">when</span> <span class="pre">it</span> <span class="pre">comes</span>
+<span class="pre">to</span> <span class="pre">creating</span> <span class="pre">custom</span> <span class="pre">widgets</span> <span class="pre">or</span> <span class="pre">more</span> <span class="pre">dynamic</span> <span class="pre">forms.</span></tt></p>
+<blockquote>
+<p><em>(Martin Aspeli, http://plone/org, Shema-driven forms tutorial)</em></p>
+</blockquote>
+</blockquote>
+</li>
+<li><p class="first"><a class="reference external" href="http://pypi.python.org/pypi/z3c.form">z3c.form</a>: not so new anymore (initial release: 2007-05-24).
+Inspired by <a class="reference external" href="http://pypi.python.org/pypi/zope.formlib">zope.formlib</a>, but allowing more flexibility. The
+thing we are going to talk about today.</p>
+</li>
+</ul>
+</blockquote>
+</li>
+</ul>
+</blockquote>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="example_form.html" title="Example form"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="z3c.form tutorial"
+             >previous</a> |</li>
+        <li><a href="index.html">plone-z3c.form-tutorial - 0.1</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2010, Rok Garbas.
+      Last updated on Oct 28, 2010.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.4.
+    </div>
+  </body>
+</html>
