@@ -1,0 +1,23 @@
+
+body {
+    font-size: 200% !important;
+}
+.related, .footer {
+    font-size: 50% !important;
+}
+div.body h1 {
+    font-weight: bold !important;
+}
+img.align-right {
+    float: right;
+    margin: 1em;
+}
+pre {
+    font-size: 80% !important;
+    margin: 0 0 0.5em 0 !important;
+    background: #E9F296 !important;
+}
+p {
+    margin: 0.2em;
+}
+
