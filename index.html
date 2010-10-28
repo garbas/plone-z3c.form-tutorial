@@ -1,80 +1,151 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-	<title>garbas/plone-z3c.form-tutorial @ GitHub</title>
-	
-	<style type="text/css">
-		body {
-  		margin-top: 1.0em;
-  		background-color: #c56c1e;
-		  font-family: "Helvetica,Arial,FreeSans";
-  		color: #ffffff;
-    }
-    #container {
-      margin: 0 auto;
-      width: 700px;
-    }
-		h1 { font-size: 3.8em; color: #3a93e1; margin-bottom: 3px; }
-		h1 .small { font-size: 0.4em; }
-		h1 a { text-decoration: none }
-		h2 { font-size: 1.5em; color: #3a93e1; }
-    h3 { text-align: center; color: #3a93e1; }
-    a { color: #3a93e1; }
-    .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
-    .download { float: right; }
-		pre { background: #000; color: #fff; padding: 15px;}
-    hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
-    .footer { text-align:center; padding-top:30px; font-style: italic; }
-	</style>
-	
-</head>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>z3c.form tutorial &mdash; plone-z3c.form-tutorial - 0.1</title>
+    <link rel="stylesheet" href="static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="static/jquery.js"></script>
+    <script type="text/javascript" src="static/underscore.js"></script>
+    <script type="text/javascript" src="static/doctools.js"></script>
+    <link rel="shortcut icon" href="static/favicon.ico"/>
+    <link rel="top" title="plone-z3c.form-tutorial - 0.1" href="#" />
+    <link rel="next" title="Intro rant" href="intro_rant.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="intro_rant.html" title="Intro rant"
+             accesskey="N">next</a> |</li>
+        <li><a href="#">plone-z3c.form-tutorial - 0.1</a> &raquo;</li> 
+      </ul>
+    </div>  
 
-<body>
-  <a href="http://github.com/garbas/plone-z3c.form-tutorial"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body">
+            
+  <div class="section" id="z3c-form-tutorial">
+<h1>z3c.form tutorial<a class="headerlink" href="#z3c-form-tutorial" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="rok-garbas-freelancer-based-in-sevilla-spain">
+<h2>Rok Garbas, Freelancer (based in Sevilla, Spain)<a class="headerlink" href="#rok-garbas-freelancer-based-in-sevilla-spain" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<ul class="simple">
+<li>E-mail: <a class="reference external" href="mailto:rok&#37;&#52;&#48;garbas&#46;si">rok<span>&#64;</span>garbas<span>&#46;</span>si</a></li>
+<li>WWW: <a class="reference external" href="http://www.garbas.si">http://www.garbas.si</a></li>
+<li>Twitter / IRC: garbas</li>
+</ul>
+</blockquote>
+<div class="section" id="today-s-menu">
+<h3>Today&#8217;s menu<a class="headerlink" href="#today-s-menu" title="Permalink to this headline">¶</a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="intro_rant.html">Intro rant</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example_form.html">Example form</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="example_form.html#shema-driven-forms-starts-with">Shema-driven forms starts with ...</a></li>
+<li class="toctree-l2"><a class="reference internal" href="example_form.html#form">Form</a></li>
+<li class="toctree-l2"><a class="reference internal" href="example_form.html#hook-it-up-with-familiar-browserview-machinery">Hook it up with familiar BrowserView machinery</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="whats_new.html">What&#8217;s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plone_z3cform.html">In detail: <tt class="docutils literal"><span class="pre">plone.z3cform</span></tt></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="plone_z3cform.html#layout-wrappers">Layout wrappers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plone_z3cform.html#widget-traverser"><tt class="docutils literal"><span class="pre">++widget++</span></tt> traverser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plone_z3cform.html#fieldsets-and-form-extenders">Fieldsets and form extenders</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plone_z3cform.html#crud-create-read-update-delete">CRUD (Create, Read, Update, Delete)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="plone_app_z3cform.html">In detail: <tt class="docutils literal"><span class="pre">plone.app.z3cform</span></tt></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="plone_app_z3cform.html#inline-kss-validation">Inline KSS validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plone_app_z3cform.html#wysiwyg-widget">WYSIWYG widget</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plone_app_z3cform.html#query-select-widget">Query select widget</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="plone_autoform.html">In detail: <tt class="docutils literal"><span class="pre">plone.autoform</span></tt></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="plone_autoform.html#in-short">In short</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plone_autoform.html#example-of-personform-with-plone-autoform">Example of <tt class="docutils literal"><span class="pre">PersonForm</span></tt> with <tt class="docutils literal"><span class="pre">plone.autoform</span></tt></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="plone_directives_form.html">And last: <tt class="docutils literal"><span class="pre">plone.directives.form</span></tt></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="plone_directives_form.html#word-on-grokking">Word on grokking</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="lets_start_again.html">Now lets start again</a></li>
+<li class="toctree-l1"><a class="reference internal" href="define_schema.html">Define schema and create simple form</a></li>
+<li class="toctree-l1"><a class="reference internal" href="validation.html">Validation in all its glory</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="validation.html#field-level-validation">Field level validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="validation.html#widget-level-validation">Widget level validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="validation.html#form-level-validation">Form level validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="validation.html#customizing-error-messages">Customizing error messages</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="vocabularies.html">Vocabularies</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="vocabularies.html#static-vocabularies">Static vocabularies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vocabularies.html#dynamic-vocabularies">Dynamic vocabularies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vocabularies.html#named-vocabularies">Named vocabularies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vocabularies.html#vdex-vocabulary">VDEX vocabulary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vocabularies.html#elephant-vocabularies">Elephant vocabularies</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="widgets_and_fieldsets.html">Widgets and Fieldsets</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="widgets_and_fieldsets.html#custom-widget-for-field">Custom widget for field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="widgets_and_fieldsets.html#form-widget-hints">Form widget hints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="widgets_and_fieldsets.html#update-widget-settings">Update widget settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="widgets_and_fieldsets.html#fieldsets">Fieldsets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="widgets_and_fieldsets.html#new-widget">New widget</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="actions.html">Actions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="actions.html#updating-button-properties">Updating button properties</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="form_types.html">Types of forms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outro_rant.html">Outro rant</a></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
 
-  <div id="container">
 
-    <div class="download">
-      <a href="http://github.com/garbas/plone-z3c.form-tutorial/zipball/master">
-        <img border="0" width="90" src="http://github.com/images/modules/download/zip.png"></a>
-      <a href="http://github.com/garbas/plone-z3c.form-tutorial/tarball/master">
-        <img border="0" width="90" src="http://github.com/images/modules/download/tar.png"></a>
+          </div>
+      </div>
+      <div class="clearer"></div>
     </div>
-
-    <h1><a href="http://github.com/garbas/plone-z3c.form-tutorial">plone-z3c.form-tutorial</a>
-      <span class="small">by <a href="http://github.com/garbas">garbas</a></span></h1>
-
-    <div class="description">
-      Presentation for Plone Conference 2010 (Bristol)
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="intro_rant.html" title="Intro rant"
+             >next</a> |</li>
+        <li><a href="#">plone-z3c.form-tutorial - 0.1</a> &raquo;</li> 
+      </ul>
     </div>
-
-    <h2>Authors</h2>
-<p>Rok Garbas (rok@garbas.si)<br/><br/>      </p>
-<h2>Contact</h2>
-<p>Rok Garbas (rok@garbas.si)<br/>      </p>
-
-
-    <h2>Download</h2>
-    <p>
-      You can download this project in either
-      <a href="http://github.com/garbas/plone-z3c.form-tutorial/zipball/master">zip</a> or
-      <a href="http://github.com/garbas/plone-z3c.form-tutorial/tarball/master">tar</a> formats.
-    </p>
-    <p>You can also clone the project with <a href="http://git-scm.com">Git</a>
-      by running:
-      <pre>$ git clone git://github.com/garbas/plone-z3c.form-tutorial</pre>
-    </p>
-
     <div class="footer">
-      get the source code on GitHub : <a href="http://github.com/garbas/plone-z3c.form-tutorial">garbas/plone-z3c.form-tutorial</a>
+        &copy; Copyright 2010, Rok Garbas.
+      Last updated on Oct 28, 2010.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.4.
     </div>
-
-  </div>
-
-  
-</body>
+  </body>
 </html>
